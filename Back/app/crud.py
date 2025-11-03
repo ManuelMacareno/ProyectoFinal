@@ -25,8 +25,8 @@ def create_user(db: Session, user: schemas.UsuarioCreate):
     print("--------------------------")
     # --- FIN DEBUGGING ---
     db_user = models.Usuario(
-        email=user.email.lower(),       # <-- AGREGA .lower()
-        nombre=user.nombre.lower(),     # <-- AGREGA .lower()
+        email=user.email.lower(),       
+        nombre=user.nombre.lower(),    
         hashed_password=hashed_password
     )
     db.add(db_user)

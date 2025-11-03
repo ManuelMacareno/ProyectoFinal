@@ -15,7 +15,6 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30 # El token dura 30 minutos
 
 # --- Contexto de Contraseña ÚNICO ---
-# Esta es ahora la única definición de pwd_context en todo el proyecto.
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 
 # Esquema de OAuth2
@@ -46,7 +45,6 @@ def get_current_user(
     Decodifica el token, busca al usuario en la DB y lo devuelve.
     """
     
-    # Importamos 'crud' aquí DENTRO para evitar importación circular
     from . import crud 
     
     credentials_exception = HTTPException(

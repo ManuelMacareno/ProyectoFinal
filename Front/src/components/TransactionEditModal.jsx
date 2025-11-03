@@ -40,7 +40,6 @@ function TransactionEditModal({ open, onClose, transaction, onUpdated }) {
     fetchCategorias();
   }, []);
 
-  // 2. ¡La parte clave!
   // Cuando la 'transaction' que recibimos cambia, llenamos el formulario.
   useEffect(() => {
     if (transaction) {
@@ -88,7 +87,6 @@ function TransactionEditModal({ open, onClose, transaction, onUpdated }) {
         </Typography>
         
         <Grid container spacing={2} sx={{ mt: 2 }}>
-          {/* Formulario (es igual al TransactionForm) */}
           <Grid item xs={12} sm={6}>
             <TextField label="Monto" type="number" value={monto} onChange={(e) => setMonto(e.target.value)} fullWidth required />
           </Grid>

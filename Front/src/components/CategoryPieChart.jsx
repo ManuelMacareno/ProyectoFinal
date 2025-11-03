@@ -14,7 +14,6 @@ function CategoryPieChart({ data }) {
   }
 
   return (
-    // Esta línea es clave: width: '100%'
     <Paper sx={{ p: 2, height: 400, width: '100%' }}>
       <Typography variant="h6" gutterBottom align="center">
         Gastos por Categoría (Mes Actual)
