@@ -6,8 +6,6 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 
-# Importamos 'models' y 'schemas' al inicio
-from . import models, schemas
 
 # --- Configuración de Seguridad ---
 SECRET_KEY = "tu_clave_secreta_muy_larga_y_dificil"
