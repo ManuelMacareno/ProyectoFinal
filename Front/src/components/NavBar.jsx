@@ -8,7 +8,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7'; // Ícono de Sol 
 import { useTheme } from '@mui/material/styles'; // Hook para saber el tema actual
 
 function NavBar() {
-  const { token, logout } = useAuth(); 
+  const { token, logout } = useAuth();
   const { toggleTheme } = useThemeToggle(); // 2. Obtené la función de toggle
   const theme = useTheme(); // 3. Obtené el tema actual para saber qué ícono mostrar
 
@@ -20,7 +20,7 @@ function NavBar() {
             Gestor de Gastos
           </RouterLink>
         </Typography>
-        
+
         {/* Box movido al final (antes del 'token ? ...') */}
         <Box>
           {token ? (
@@ -31,6 +31,9 @@ function NavBar() {
               </Button>
               <Button color="inherit" component={RouterLink} to="/dashboard">
                 Dashboard
+              </Button>
+              <Button color="inherit" component={RouterLink} to="/balance-mensual">
+                Balance mensual
               </Button>
               <Button color="inherit" component={RouterLink} to="/categorias">
                 Categorías

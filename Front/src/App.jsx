@@ -10,6 +10,8 @@ import TransactionsPage from './pages/TransactionsPage';
 import CategoriesPage from './pages/CategoriesPage';
 // Components
 import NavBar from './components/NavBar';
+import MonthlyBalancePage from './pages/MonthlyBalancePage';
+
 
 // El componente "Guardián"
 const ProtectedRoute = ({ children }) => {
@@ -56,6 +58,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <CategoriesPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/balance-mensual"
+              element={
+                <ProtectedRoute>
+                  <MonthlyBalancePage />
                 </ProtectedRoute>
               }
             />

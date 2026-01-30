@@ -23,18 +23,21 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
-  const login = async (usernameOrEmail, password) => { 
+  const login = async (usernameOrEmail, password) => {
     try {
       const formData = new URLSearchParams();
       // 'username' es el nombre que FastAPI espera del formulario OAuth2
-      formData.append('username', usernameOrEmail); 
+      formData.append('username', usernameOrEmail);
       formData.append('password', password);
 
-      const response = await apiClient.post('/token', formData);
-      
+      const response = await apiClient.post('/auth/token', formData, {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      });
+
+
       const { access_token } = response.data;
       setToken(access_token);
-      
+
       navigate('/transacciones');
     } catch (error) {
       console.error('Error en el login:', error);
@@ -49,22 +52,22 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (email, password, nombre) => {
-     try {
-        // Intentamos crear el usuario
-        await apiClient.post('/usuarios/', { email, password, nombre });
-        
-     } catch (error) {
-        console.error('Error en el registro:', error);
-        
-        // Reenviamos el error específico del backend
-        if (error.response && error.response.status === 400) {
-          // Este es el error "400 Bad Request" (Email ya registrado)
-          throw new Error('El email ya está registrado.');
-        } else {
-          // Para cualquier otro error (ej: se cayó el servidor)
-          throw new Error('Error al registrar el usuario. Intenta de nuevo.');
-        }
-     }
+    try {
+      // Intentamos crear el usuario
+      await apiClient.post('/usuarios/', { email, password, nombre });
+
+    } catch (error) {
+      console.error('Error en el registro:', error);
+
+      // Reenviamos el error específico del backend
+      if (error.response && error.response.status === 400) {
+        // Este es el error "400 Bad Request" (Email ya registrado)
+        throw new Error('El email ya está registrado.');
+      } else {
+        // Para cualquier otro error (ej: se cayó el servidor)
+        throw new Error('Error al registrar el usuario. Intenta de nuevo.');
+      }
+    }
   };
 
   return (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'; // Importa useCallback
 // Importa Skeleton, Alert, Button y Divider
-import { Container, Typography, CircularProgress, Box, Skeleton, Alert, Button, Divider } from '@mui/material'; 
+import { Container, Typography, CircularProgress, Box, Skeleton, Alert, Button, Divider } from '@mui/material';
 import apiClient from '../api/apiClient';
 import BalanceDisplay from '../components/BalanceDisplay';
 import CategoryPieChart from '../components/CategoryPieChart';
@@ -12,19 +12,42 @@ function DashboardPage() {
   const [error, setError] = useState(null); // Nuevo estado para el error
 
   // Usamos useCallback para evitar que la función se recree en cada render
-  const fetchSummary = useCallback(async () => { 
+  const fetchSummary = useCallback(async () => {
     try {
       setLoading(true);
-      setError(null); // Limpiamos errores anteriores
-      const response = await apiClient.get('/dashboard/summary');
-      setSummary(response.data);
+      setError(null);
+
+      const balRes = await apiClient.get('/dashboard/balance-actual');
+
+      const year = balRes.data.year;
+      const month = balRes.data.month;
+
+      const resRes = await apiClient.get(`/dashboard/resumen/${year}/${month}`);
+      const items = resRes.data?.resumen_por_categoria ?? [];
+
+      const gastos_por_categoria = items
+        .map((item) => ({
+          name: item.nombre ?? `Cat ${item.categoria_id}`,
+          value: Number(item.total ?? 0),
+        }))
+        .filter((x) => x.value > 0);
+
+
+      setSummary({
+        total_ingresos: balRes.data.total_ingresos ?? 0,
+        total_gastos: balRes.data.total_gastos ?? 0,
+        balance: balRes.data.balance ?? 0,
+        gastos_por_categoria,
+      });
     } catch (err) {
-      console.error("Error al cargar el resumen:", err);
-      setError("No se pudo cargar el resumen del dashboard. Intenta de nuevo."); // Guardamos el mensaje de error
+      console.error("DASHBOARD ERROR:", err?.response?.data, err);
+      setError("No se pudo cargar el dashboard.");
     } finally {
       setLoading(false);
     }
-  }, []); // useCallback necesita un array de dependencias vacío aquí
+  }, []);
+
+
 
   // Llamamos a fetchSummary cuando el componente se monta
   useEffect(() => {
@@ -38,10 +61,10 @@ function DashboardPage() {
         <Typography variant="h4" component="h1" gutterBottom>
           <Skeleton width="40%" /> {/* Skeleton para el título */}
         </Typography>
-        
+
         {/* Skeleton para el BalanceDisplay */}
-        <Skeleton variant="rectangular" height={118} sx={{ mb: 4 }} /> 
-        
+        <Skeleton variant="rectangular" height={118} sx={{ mb: 4 }} />
+
         {/* Skeletons para los gráficos (en layout flex) */}
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4 }}>
           <Skeleton variant="rectangular" height={400} sx={{ flex: 1 }} />
@@ -72,11 +95,11 @@ function DashboardPage() {
   // --- 3. Estado "Normal" (cuando hay datos) ---
   // (El estado 'summary' null/vacío ya lo manejan los componentes hijos)
   return (
-    <Container sx={{ mt: 4 }}> 
+    <Container sx={{ mt: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Dashboard (Mes Actual)
       </Typography>
-      
+
       {/* Balance */}
       <BalanceDisplay
         ingresos={summary?.total_ingresos ?? 0} // Usamos '?? 0' por si acaso
@@ -85,14 +108,14 @@ function DashboardPage() {
       />
 
       {/* Separador visual opcional */}
-      <Divider sx={{ my: 4 }} /> 
-      
+      <Divider sx={{ my: 4 }} />
+
       {/* Contenedor Flex para los gráficos */}
-      <Box 
-        sx={{ 
-          display: 'flex', 
-          flexDirection: { xs: 'column', md: 'row' }, 
-          gap: 4, 
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          gap: 4,
           // Quitamos el margen superior aquí porque ya lo da el Divider
         }}
       >
@@ -100,16 +123,16 @@ function DashboardPage() {
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <CategoryPieChart data={summary?.gastos_por_categoria ?? []} />
         </Box>
-        
+
         {/* Gráfico de Barras */}
         <Box sx={{ flex: 1, minWidth: 0 }}>
-          <BalanceBarChart 
+          <BalanceBarChart
             ingresos={summary?.total_ingresos ?? 0}
             gastos={summary?.total_gastos ?? 0}
           />
         </Box>
       </Box>
-      
+
     </Container>
   );
 }
