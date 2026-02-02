@@ -12,11 +12,11 @@ Asegúrate de tener instalados:
 
 ---
 
-## Configuración del Backend (FastAPI) ⚙️
+## Configuración del Backend (FastAPI + PostgreSQL + Alembic) ⚙️
 
 1.  **Abrí una terminal** y navegá a la carpeta del backend:
     ```bash
-    cd back
+    cd Back
     ```
 2.  **Creá un entorno virtual:**
     ```bash
@@ -30,14 +30,30 @@ Asegúrate de tener instalados:
     ```bash
     pip install -r requirements.txt
     ```
-5.  **Ejecutá el servidor de backend:**
+5.  **Creá el archivo `.env`** en la carpeta `Back/` (este archivo NO se commitea):
+    ```env
+    SECRET_KEY=TU_SECRET_KEY_GENERADA
+    DATABASE_URL=postgresql+psycopg2://postgres:TU_PASSWORD@localhost:5432/gastos
+    ```
+    *Para generar una SECRET_KEY segura:*
+    ```bash
+    python -c "import secrets; print(secrets.token_urlsafe(48))"
+    ```
+6.  **Base de datos:** Asegurate de tener PostgreSQL corriendo y que exista una base de datos llamada `gastos`.
+    *Si no existe, podés crearla desde `psql`:*
+    ```sql
+    CREATE DATABASE gastos;
+    ```
+7.  **Ejecutá las migraciones de Alembic** (esto crea las tablas en PostgreSQL):
+    ```bash
+    alembic upgrade head
+    ```
+8.  **Ejecutá el servidor de backend:**
     ```bash
     uvicorn app.main:app --reload
     ```
     *El backend estará corriendo en `http://127.0.0.1:8000`.*
-
----
-
+    
 ## Configuración del Frontend (React/Vite) ⚛️
 
 1.  **Abrí OTRA terminal** (dejá la del backend corriendo).
