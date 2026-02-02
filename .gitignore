@@ -1,4 +1,6 @@
+# =========================
 # Python / FastAPI
+# =========================
 __pycache__/
 *.py[cod]
 *$py.class
@@ -7,29 +9,53 @@ __pycache__/
 dist/
 build/
 *.egg
-.env
-*.db 
-*.sqlite3
+pip-wheel-metadata/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.pytype/
+pytestdebug.log
+
+# Logs
 *.log
 
-# Entorno Virtual Python
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Local DB files (SQLite)
+*.db
+*.sqlite
+*.sqlite3
+
+# Virtual environments
 venv/
 .venv/
 env/
 ENV/
 
-# React / Vite / Node.js
+# Alembic
+alembic/__pycache__/
+alembic/versions/__pycache__/
+
+# =========================
+# Node / React / Vite
+# =========================
 node_modules/
-dist/ # Carpeta de build del frontend
+dist/
 .cache/
 *.local
-.DS_Store
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.idea/
-.vscode/ # Ignora configuración específica de VS Code si la usas
 
-# Archivos específicos de tu SO (Opcional pero recomendado)
+# IDE
+.idea/
+.vscode/
+
+# OS
 .DS_Store
 Thumbs.db
