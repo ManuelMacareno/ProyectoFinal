@@ -2,7 +2,6 @@
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
-from fastapi import HTTPException, status  # Añade estos imports
 from app.core.config import settings
 
 pwd_context = CryptContext(

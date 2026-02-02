@@ -9,7 +9,7 @@ from app.db.crud.user import get_user_by_email_or_username
 from app.core.security import verify_password, create_access_token
 from app.core.config import settings
 # CAMBIA ESTOS IMPORTS:
-from app.schemas.auth import Token, TokenData  # ¡Importa directamente!
+from app.schemas.auth import Token  # ¡Importa directamente!
 # Si también necesitas otros schemas:
 from app.schemas.user import Usuario
 

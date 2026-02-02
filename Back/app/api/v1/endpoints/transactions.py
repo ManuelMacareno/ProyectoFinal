@@ -11,7 +11,6 @@ from app.schemas.transaction import Transaccion, TransaccionCreate
 from app.db.crud.transaction import (
     create_user_transaccion,
     get_transacciones,
-    get_transaccion,
     update_transaccion,
     delete_transaccion
 )

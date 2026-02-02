@@ -9,9 +9,7 @@ from app.db.crud.user import get_user_by_email
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
-    print("TOKEN RAW:", token[:20], "...")
     payload = decode_token(token)
-    print("PAYLOAD:", payload)
     if payload is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

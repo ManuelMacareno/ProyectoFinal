@@ -6,11 +6,8 @@ from datetime import datetime
 from app.db.database import get_db
 from app.api.deps import get_current_user
 from app.db.models import Usuario
-from app.db.crud.transaction import (
-    get_dashboard_summary,
-    obtener_balance_mensual,
-    obtener_resumen_mensual
-)
+from app.db.crud.transaction import get_dashboard_summary
+
 from app.schemas.dashboard import DashboardSummary
 from app.db.models import Transaccion, Categoria
 from sqlalchemy import func, extract
