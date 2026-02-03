@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: gastos
+      POSTGRES_PASSWORD: gastos
+      POSTGRES_DB: gastos
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  api:
+    build: ./Back
+    env_file:
+      - ./Back/.env
+    volumes:
+      - ./Back:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  front:
+    build: ./Front
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://api:8000
+    volumes:
+      - ./Front:/app
+      - /app/node_modules
+    command: npm run dev -- --host
+
+volumes:
+  pgdata:
