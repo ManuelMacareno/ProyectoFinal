@@ -65,7 +65,11 @@ Asegúrate de tener instalados:
     ```bash
     npm install
     ```
-4.  **Ejecutá el servidor de desarrollo del frontend:**
+4. **Creá el archivo `.env`** en la carpeta `Front/` (este archivo NO se commitea):
+    ```env
+    VITE_API_URL=http://localhost:8000
+    ```
+5.  **Ejecutá el servidor de desarrollo del frontend:**
     ```bash
     npm run dev
     ```
